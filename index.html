@@ -16,6 +16,14 @@
 		<li>SimpleFilters: https://www.slicer.org/wiki/Documentation/Nightly/Modules/SimpleFilters</li>
 		<li>Slicer script repository for how to use SimpleITK from your Python module: https://www.slice.org/wiki/Documentation/Nightly/ScriptRepository#Running_an_ITK_filter_in_Python_using_SimpleITK</li>
 	</ul>
+	<h3> Research for plan of action:</h3>
+	<ul>
+		-problems include antomical complexity of spine
+		-MRI is often able to capture good quality images of soft tissue, but bone are sometimes captured with intensity similar to air 
+		-Images contain noise
+			-Approach to resolve this: we can reduce the size of the image (decrease number of pixels) and filter the image using method proposed in paper proposed by Nobi and Yousuf (2011)
+			-Decided to impletement Guassian method as this is exists in Simple ITK
+	<\ul>
 
 	</body>
 
