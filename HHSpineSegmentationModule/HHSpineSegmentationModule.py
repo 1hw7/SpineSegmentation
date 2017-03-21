@@ -18,14 +18,12 @@ class HHSpineSegmentationModule(ScriptedLoadableModule):
     self.parent.title = "HHSpineSegmentationModule" # TODO make this more human readable by adding spaces
     self.parent.categories = ["Examples"]
     self.parent.dependencies = []
-    self.parent.contributors = ["John Doe (AnyWare Corp.)"] # replace with "Firstname Lastname (Organization)"
+    self.parent.contributors = ["Hannah Huckstep, Hannah Wilkinson"] # replace with "Firstname Lastname (Organization)"
     self.parent.helpText = """
-    This is an example of scripted loadable module bundled in an extension.
-    It performs a simple thresholding on the input volume and optionally captures a screenshot.
+    Hopefully some spine segmentation 
     """
     self.parent.acknowledgementText = """
-    This file was originally developed by Jean-Christophe Fillion-Robin, Kitware Inc.
-    and Steve Pieper, Isomics, Inc. and was partially funded by NIH grant 3P41RR013218-12S1.
+    
 """ # replace with organization, grant and thanks.
 
 #
@@ -49,38 +47,59 @@ class HHSpineSegmentationModuleWidget(ScriptedLoadableModuleWidget):
     parametersCollapsibleButton.text = "Parameters"
     self.layout.addWidget(parametersCollapsibleButton)
 
-    # Layout within the dummy collapsible button
-    parametersFormLayout = qt.QFormLayout(parametersCollapsibleButton)
+    ####### March 20th ###########
 
-    #
-    # input volume selector
-    #
-    self.inputSelector = slicer.qMRMLNodeComboBox()
-    self.inputSelector.nodeTypes = ["vtkMRMLScalarVolumeNode"]
-    self.inputSelector.selectNodeUponCreation = True
+    self.inputSelector.nodeTypes = ( ("vtkMRMLLabelMapVolumeNode"), "" )
+    self.inputSelector.selectNodeUponCreation = False
     self.inputSelector.addEnabled = False
     self.inputSelector.removeEnabled = False
     self.inputSelector.noneEnabled = False
     self.inputSelector.showHidden = False
     self.inputSelector.showChildNodeTypes = False
-    self.inputSelector.setMRMLScene( slicer.mrmlScene )
-    self.inputSelector.setToolTip( "Pick the input to the algorithm." )
-    parametersFormLayout.addRow("Input Volume: ", self.inputSelector)
+    self.inputSelector.setMRMLScene(slicer.mrmlScene)
 
-    #
-    # output volume selector
-    #
-    self.outputSelector = slicer.qMRMLNodeComboBox()
-    self.outputSelector.nodeTypes = ["vtkMRMLScalarVolumeNode"]
-    self.outputSelector.selectNodeUponCreation = True
-    self.outputSelector.addEnabled = True
-    self.outputSelector.removeEnabled = True
-    self.outputSelector.noneEnabled = True
-    self.outputSelector.showHidden = False
-    self.outputSelector.showChildNodeTypes = False
-    self.outputSelector.setMRMLScene( slicer.mrmlScene )
-    self.outputSelector.setToolTip( "Pick the output to the algorithm." )
-    parametersFormLayout.addRow("Output Volume: ", self.outputSelector)
+    parametersFormLayout = qt.QFormLayout(parametersCollapsibleButton)
+
+    #Starting to test input 
+    self.inputSelector = slicer.qMRMLNodeComboBox() # q - inherited from QT, MRML - inherited from slicer allows us to pick certain node types. in this case we only want vtkMRMLLabelMapVolumeNode
+
+
+    # get input #1 form user
+    self.inputSelector.setToolTip( "Pick an Input" )
+    parametersFormLayout.addRow("Input Volume 1: ", self.inputSelector)
+
+    # Apply Button
+    self.applyButton = qt.QPushButton("Apply")
+    self.applyButton.toolTip = "I hope this works, tessssting"
+    parametersFormLayout.addRow(self.applyButton)
+
+    self.input2Selector = slicer.qMRMLNodeComboBox() 
+
+    # This sets the node type that can be selected as a Label Map Volume Node.
+    self.input2Selector.nodeTypes = ( ("vtkMRMLLabelMapVolumeNode"), "" )
+    self.input2Selector.selectNodeUponCreation = False
+    self.input2Selector.addEnabled = False
+    self.input2Selector.removeEnabled = False
+    self.input2Selector.noneEnabled = False
+    self.input2Selector.showHidden = False
+    self.input2Selector.showChildNodeTypes = False
+    self.input2Selector.setMRMLScene(slicer.mrmlScene)
+
+
+    # Tooltips and the label for the combobox.
+    self.input2Selector.setToolTip( "Pick another input" )
+    parametersFormLayout.addRow("Input Volume 2: ", self.input2Selector)
+
+    
+    self.outputLabel = qt.QLabel('test') 
+    parametersFormLayout.addRow(self.outputLabel)
+    
+
+    self.applyButton.connect('clicked(bool)', self.onApplyButton) # when button is clicked send signal out 
+    self.inputSelector.connect('currentNodeChanged(vtkMRMLNode*)',self.onSelect) # when current node is changed want to set new signal 
+    self.input2Selector.connect('currentNodeChanged(vtkMRMLNode*)',self.onSelect) # when current node is changed want to set new signal 
+
+    ######################
 
     #
     # threshold value
@@ -100,7 +119,7 @@ class HHSpineSegmentationModuleWidget(ScriptedLoadableModuleWidget):
     self.enableScreenshotsFlagCheckBox.checked = 0
     self.enableScreenshotsFlagCheckBox.setToolTip("If checked, take screen shots for tutorials. Use Save Data to write them to disk.")
     parametersFormLayout.addRow("Enable Screenshots", self.enableScreenshotsFlagCheckBox)
-
+    '''
     #
     # Apply Button
     #
@@ -113,7 +132,7 @@ class HHSpineSegmentationModuleWidget(ScriptedLoadableModuleWidget):
     self.applyButton.connect('clicked(bool)', self.onApplyButton)
     self.inputSelector.connect("currentNodeChanged(vtkMRMLNode*)", self.onSelect)
     self.outputSelector.connect("currentNodeChanged(vtkMRMLNode*)", self.onSelect)
-
+    '''
     # Add vertical spacer
     self.layout.addStretch(1)
 
