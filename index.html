@@ -22,24 +22,10 @@
 	</ul>
 	<h3> Plan of action: </h3>
 	<ul>
-		<li> we can reduce the size of the image (decrease number of pixels) and filter the image using method proposed in paper proposed by Nobi and Yousuf (2011)
-		<li> Decided to impletement Guassian Filter as this is exists in Simple ITK
-		<li> after filtering, must use thresholding. Can establish what threshold is, and points above this threshold signify an edge
-		<li> Began research on how method would be tested. This data set containing 10 images could be used to evaluate efficacy of an algorithm
-		<li> Website with data from study : http://spineweb.digitalimaginggroup.ca/spineweb/index.php?n=Main.Datasets
-			<li> source of data: Jianhua Yao, Joseph E. Burns, Daniel Forsberg, Alexander Seitel, Abtin Rasoulian, Purang Abolmaesumi, Kerstin Hammernik, Martin Urschler, Bulat Ibragimov, Robert Korez, Tomaž Vrtovec, Isaac Castro-Mateos, Jose M. Pozo, Alejandro F. Frangi, Ronald M. Summers, Shuo Li, A Multi-center Milestone Study of Clinical Vertebral CT Segmentation, accepted for publication in Computerized Medical Imaging and Graphics, 2016.
-		<li>GT (graph theory? will ask Tamas in class tomorrow) based methods commonly used in vertebrae segmentation
-		<li> Hannah and I were both interested in an approach which in which a directed graph is constructed for a target structure, then attempt to search for the boundary of the target structure from the constructed graph by applying a graph theory-based optimal boundary search process 
-		<li> approach designed by Li K, Wu X, Chen DZ, Sonka M. Optimal surface segmentation in volumetric images-A graph-theoretic approach. IEEE Trans Pattern Anal Mach Intell. 2006;28(1):119–134. doi: 10.1109/TPAMI.2006.19. pmid:16402624 & Song Q, Bai J, Garvin MK, Sonka M, Buatti JM, Wu X. Optimal Multiple Surface Segmentation With Shape and Context Priors. IEEE Trans Med Imag. 2013;32(2):376–386. doi: 10.1109/TMI.2012.2227120.
-		<li> Successful detection rate with various ranges of accuracy: If the absolute difference between the localized VB center and the ground truth center is no greater than t mm, the localization of this VB is considered as a successful detection; otherwise, it is considered as a false localization. The equation of the successful localization rate Pt with accuracy of less than t mm can be formulated as follows: # of accurate VB localizations/total #VBs
-		<li> detection rate sourced from: Chengwen Chu, Daniel L. Belavý, Gabriele Armbrecht, Martin Bansmann, Dieter Felsenberg, Guoyan Zheng, Published: November 23, 2015http://dx.doi.org/10.1371/journal.pone.0143327
-		<li> Continued researching different ways to segment an image in a more general sense
-		<li> methods which seemed to apply well to our implementation include: edge detection, region growing methods
-		<li> issues with region growing method can include problems such as a point on the top of a vertebra in the spine could be very similar to a bottom point on a vertebra of the spine- how would these points be differentiated?
-		<li> adaptive thresholding also appears to be a method which could be effective in this scenario
-		</ul>
-	sources used:
-		http://www.cg.informatik.uni-siegen.de/en/spine-segmentation-and-analysis, http://www.banglajol.info/index.php/JSR/article/viewFile/5544/5164
+	<li> Implement Gaussian filter (done)
+	<li> Implement thresholding either by using scripting code (currently errors with this, cv2 not library which can be used in slicer it seems)
+	<li> continue..
+	</ul>
 	</body>
 
 
