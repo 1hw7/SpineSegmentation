@@ -1,10 +1,7 @@
-'''
 import SimpleITK as sitk
 import sitkUtils
-f = 'filename'
-slicer.util.loadVolume(f)
-inputImage = sitkUtils.PullFromSlicer('image number')
-filter = sitk.'DiscreteGaussianImageFilter'()
+#loaded image by dragging file into slicer 
+inputImage = sitkUtils.PullFromSlicer('007.CTDC.nrrd')
+filter = sitk.DiscreteGaussianImageFilter()
 outputImage = filter.Execute(inputImage)
 sitkUtils.PushToSlicer(outputImage,'outputImage')
-'''
