@@ -3,15 +3,15 @@ import SimpleITK as sitk
 import sitkUtils
 import SampleData
 
-sdl = SampleData.SampleDataLogic()
-h = sdl.downloadMRHead()
-
 import SimpleITK as sitk
 import sitkUtils
 inputImage = sitkUtils.PullFromSlicer('007.CTDC.nrrd')
+filter = sitk.DiscreteGaussianImageFilter()
+outputImage = filter.Execute(inputImage)
+sitkUtils.PushToSlicer(outputImage,'outputImage')
 filter = sitk.BinaryThresholdImageFilter()
 filter.SetLowerThreshold(100)
-outputImage = filter.Execute(inputImage)
+outputImage2 = filter.Execute(outputImage)
 sitkUtils.PushToSlicer(outputImage,'outputImage')
 
 
@@ -19,4 +19,4 @@ sitkUtils.PushToSlicer(outputImage,'outputImage')
 #filter = sitk.DiscreteGaussianImageFilter()
 #outputImage = filter.Execute(inputImage)
 #sitkUtils.PushToSlicer(outputImage,'outputImage')
-plt.show()
+
