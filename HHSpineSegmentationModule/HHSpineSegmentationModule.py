@@ -147,9 +147,9 @@ class HHSpineSegmentationModuleWidget(ScriptedLoadableModuleWidget):
 
   def onApplyButton(self):
     logic = HHSpineSegmentationModuleLogic()
-    enableScreenshotsFlag = self.enableScreenshotsFlagCheckBox.checked
-    imageThreshold = self.imageThresholdSliderWidget.value
-    logic.run(self.inputSelector.currentNode(), self.outputSelector.currentNode(), imageThreshold, enableScreenshotsFlag)
+    #enableScreenshotsFlag = self.enableScreenshotsFlagCheckBox.checked
+    #imageThreshold = self.imageThresholdSliderWidget.value
+    logic.run(self.inputSelector.currentNode(), self.input2tSelector.currentNode())
 
 #
 # HHSpineSegmentationModuleLogic
@@ -229,26 +229,40 @@ class HHSpineSegmentationModuleLogic(ScriptedLoadableModuleLogic):
     annotationLogic = slicer.modules.annotations.logic()
     annotationLogic.CreateSnapShot(name, description, type, 1, imageData)
 
-  def run(self, inputVolume, outputVolume, imageThreshold, enableScreenshots=0):
+  def run(self, inputVolume, input2Volume):
     """
     Run the actual algorithm
     """
 
-    if not self.isValidInputOutputData(inputVolume, outputVolume):
+    if not self.isValidInputOutputData(inputVolume, input2Volume):
       slicer.util.errorDisplay('Input volume is the same as output volume. Choose a different output volume.')
       return False
 
-    logging.info('Processing started')
+
+    import SimpleITK as sitk
+    import sitkUtils
+    inputImage = inputVolume
+    filter = sitk.DiscreteGaussianImageFilter()
+    outputImage = filter.Execute(inputImage)
+    sitkUtils.PushToSlicer(outputImage,'outputImage')
+
+    input2Image = input2Volume
+    filter = sitk.DiscreteGaussianImageFilter()
+    outputImage = filter.Execute(input2Image)
+    sitkUtils.PushToSlicer(output2Image,'output2Image')
+
+
+    #logging.info('Processing started')
 
     # Compute the thresholded output volume using the Threshold Scalar Volume CLI module
-    cliParams = {'InputVolume': inputVolume.GetID(), 'OutputVolume': outputVolume.GetID(), 'ThresholdValue' : imageThreshold, 'ThresholdType' : 'Above'}
-    cliNode = slicer.cli.run(slicer.modules.thresholdscalarvolume, None, cliParams, wait_for_completion=True)
+    #cliParams = {'InputVolume': inputVolume.GetID(), 'OutputVolume': outputVolume.GetID(), 'ThresholdValue' : imageThreshold, 'ThresholdType' : 'Above'}
+    #cliNode = slicer.cli.run(slicer.modules.thresholdscalarvolume, None, cliParams, wait_for_completion=True)
 
     # Capture screenshot
-    if enableScreenshots:
-      self.takeScreenshot('HHSpineSegmentationModuleTest-Start','MyScreenshot',-1)
+    #if enableScreenshots:
+    #  self.takeScreenshot('HHSpineSegmentationModuleTest-Start','MyScreenshot',-1)
 
-    logging.info('Processing completed')
+    #logging.info('Processing completed')
 
     return True
 
